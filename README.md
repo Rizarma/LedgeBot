@@ -20,7 +20,7 @@
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/Zlkcyber/LedgeBot.git
+    git clone https://github.com/Rizarma/LedgeBot.git
     cd LedgeBot
     ```
 
@@ -29,15 +29,19 @@
     npm install
     ```
 3. paste proxy in `proxy.txt`:
--  format `http://username:password@ip:port` or `socks5://username:password@ip:port`
+    format `http://username:password@ip:port` or `socks5://username:password@ip:port`
     ```sh
     nano proxy.txt
     ```
-4. Auto Referral / create new wallets
+4. copy env and modify REF_CODE & WALLET_COUNT
+    ```sh
+    cp .env_example .env
+    ```
+5. Auto Referral / create new wallets
     ```sh
     npm run autoref
     ```
-4. Run the script:
+6. Run the script:
     ```sh
     npm run start
     ```
@@ -49,3 +53,7 @@
 ## ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 This project is licensed under the [MIT License](LICENSE).
+
+## Credit
+
+Original work by [Zlkcyber](https://github.com/Zlkcyber)

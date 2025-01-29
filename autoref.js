@@ -1,4 +1,4 @@
-
+import 'dotenv/config'
 import { ethers } from 'ethers'
 import fs from 'fs/promises'
 import readline from 'readline'
@@ -62,8 +62,10 @@ async function autoRegister() {
     if (proxies.length === 0) {
         log.warn('No proxies found, running without proxy...');
     }
-    const numberOfWallets = await askQuestion("How many wallets/ref do you want to create? ");
-    const refCode = await askQuestion("Enter Your Referral code example => O8Ijyqih: ");
+
+    const numberOfWallets = Number(process.env.WALLET_COUNT);
+    const refCode = process.env.REF_CODE;
+
     for (let i = 0; i < numberOfWallets; i++) {
         const proxy = proxies[i % proxies.length] || null;
         try {

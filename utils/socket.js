@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import axios from "axios";
 import chalk from "chalk";
 import { Wallet } from "ethers";
@@ -5,12 +6,13 @@ import log from "./logger.js";
 import { newAgent } from "./helper.js";
 
 class LayerEdgeConnection {
-    constructor(proxy = null, privateKey = null, refCode = "O8Ijyqih") {
+    constructor(proxy = null, privateKey = null, refCode = process.env.REF_CODE) {
         this.refCode = refCode;
         this.proxy = proxy;
         this.headers = {
             Accept: "application/json, text/plain, */*",
             Origin: "https://dashboard.layeredge.io",
+            Referer: "https://dashboard.layeredge.io"
         }
 
         this.axiosConfig = {
@@ -33,6 +35,12 @@ class LayerEdgeConnection {
                 const headers = { ...this.headers };
                 if (method.toUpperCase() === 'POST') {
                     headers['Content-Type'] = 'application/json';
+                    headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
+                    headers['sec-ch-ua'] = '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"';
+                    headers['sec-ch-ua-mobile'] = '?0';
+                    headers['sec-fetch-dest'] = 'empty';
+                    headers['sec-fetch-mode'] = 'cors';
+                    headers['sec-fetch-site'] = 'same-origin';
                 }
 
                 const response = await axios({
@@ -74,10 +82,10 @@ class LayerEdgeConnection {
         );
 
         if (response && response.data && response.data.data.valid === true) {
-            log.info("Invite Code Valid", response.data);
+            log.info(`Invite Code ${inviteData.invite_code} Valid`, response.data);
             return true;
         } else {
-            log.error("Failed to check invite",);
+            log.error(`Failed to check invite ${inviteData.invite_code}`,);
             return false;
         }
     }
